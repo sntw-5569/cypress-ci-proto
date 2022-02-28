@@ -41,7 +41,7 @@ jobs:
           browser: chrome
           record: true
           config-file: cypress/cypress.json
-          spec: cypress/integration/pages/*
+          spec: cypress/integration/pages/**
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.DUMMY_GITHUB_TOKEN }}
