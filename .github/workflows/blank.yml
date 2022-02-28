@@ -1,28 +1,47 @@
-name: Cypress Tests
+name: Run E2E tests for QA
 
 on:
+#  schedule:
+#    - cron: '0 22 * * *'
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  frontend-build-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: shell commands
-        run: |
-          echo '{ "name": "abcdefg" }' | sed 's/def//g' | jq .name
 
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     build: npm install
-      #     start: npm run test
-      #     browser: chrome
-      #     record: true
-      #     config-file: cypress/cypress.json
-      #   env:
-      #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      #     GITHUB_TOKEN: ${{ secrets.DUMMY_GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.6.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '12.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup test for DB
+        run: |
+          task_arn=$(aws ecs list-tasks --cluster dd-support-qa --region ap-southeast-2 | jq '.taskArns[0]' | sed -e 's/arn.*dd-support-[a-z]*\///g' | sed -e 's/"//g')
+          aws ecs execute-command --region ap-southeast-2 --cluster dd-support-qa --task ${task_arn} \
+            --container dd-support-qa-api --interactive --command "cat pytest.ini"
+
+      - name: 'UI Tests - Chrome'
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: yarn run e2e
+          browser: chrome
+          record: true
+          config-file: cypress/cypress.json
+          spec: cypress/integration/pages/*
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.DUMMY_GITHUB_TOKEN }}
