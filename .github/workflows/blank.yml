@@ -29,9 +29,9 @@ jobs:
 
       - name: Setup test for DB
         run: |
-          task_arn=$(aws ecs list-tasks --cluster dd-support-qa --region ap-southeast-2 | jq '.taskArns[0]' | sed -e 's/arn.*dd-support-[a-z]*\///g' | sed -e 's/"//g')
-          aws ecs execute-command --region ap-southeast-2 --cluster dd-support-qa --task ${task_arn} \
-            --container dd-support-qa-api --interactive --command "cat pytest.ini"
+          task_arn=$(aws ecs list-tasks --cluster dd-support-dev --region us-west-1 | jq '.taskArns[0]' | sed -e 's/arn.*dd-support-[a-z]*\///g' | sed -e 's/"//g')
+          aws ecs execute-command --region us-west-1 --cluster dd-support-dev --task ${task_arn} \
+            --container dd-support-dev-api --non-interactive --command "cat pytest.ini"
 
       - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v2
