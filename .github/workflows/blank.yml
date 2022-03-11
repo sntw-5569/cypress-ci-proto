@@ -25,7 +25,7 @@ jobs:
           node-version: "12.x"
 
       - name: Install dependencies
-        run: npm install && cd client && echo $(pwd)
+        run: cd client && npm install && echo $(pwd)
 
       - name: Setup test for DB
         run: |
@@ -37,7 +37,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: npm run test
+          start: yarn run test
           browser: chrome
           record: true
           working-directory: client
