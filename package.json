@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sntw-5569/cypress_ci_proto#readme",
   "dependencies": {
-    "cypress": "^9.5.0"
+    "cypress": "^9.5.0",
+    "yarn": "^1.22.17"
   }
 }

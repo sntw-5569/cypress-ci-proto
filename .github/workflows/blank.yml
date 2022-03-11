@@ -1,8 +1,8 @@
 name: Run E2E tests for QA
 
 on:
-#  schedule:
-#    - cron: '0 22 * * *'
+  #  schedule:
+  #    - cron: '0 22 * * *'
   workflow_dispatch:
 
 jobs:
@@ -22,10 +22,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '12.x'
+          node-version: "12.x"
 
       - name: Install dependencies
-        run: npm install
+        run: npm install && echo $(pwd)
 
       - name: Setup test for DB
         run: |
@@ -33,11 +33,11 @@ jobs:
           aws ecs execute-command --region us-west-1 --cluster dd-support-dev --task ${task_arn} \
             --container dd-support-dev-api --non-interactive --command "cat pytest.ini"
 
-      - name: 'UI Tests - Chrome'
+      - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: npm run test
+          start: yarn run test --cwd $(pwd) && echo $(pwd)
           browser: chrome
           record: true
           config-file: cypress/cypress.json
