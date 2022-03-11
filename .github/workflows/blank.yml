@@ -37,7 +37,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: npm run test --prefix client
+          start: yarn --cwd client run test
           browser: chrome
           record: true
           config-file: cypress/cypress.json
