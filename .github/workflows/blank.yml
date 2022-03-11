@@ -37,9 +37,10 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          command: yarn --cwd client run test
+          start: yarn run test
           browser: chrome
           record: true
+          working-directory: client
           config-file: cypress/cypress.json
           spec: cypress/integration/pages/**
         env:
