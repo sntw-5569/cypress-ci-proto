@@ -1,0 +1,23 @@
+{
+  "name": "cypress_ci_proto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --config-file cypress/cypress.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sntw-5569/cypress_ci_proto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sntw-5569/cypress_ci_proto/issues"
+  },
+  "homepage": "https://github.com/sntw-5569/cypress_ci_proto#readme",
+  "dependencies": {
+    "cypress": "^9.5.0",
+    "yarn": "^1.22.17"
+  }
+}
