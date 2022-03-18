@@ -1,4 +1,5 @@
 {
     "baseUrl": "https://frontend-qa.city-sc.jp/",
-    "projectId": "x7zwpk"
+    "projectId": "x7zwpk",
+    "videoCompression": 15
 }
