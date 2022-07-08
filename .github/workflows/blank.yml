@@ -37,6 +37,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
+          command: yarn run test
           browser: chrome
           record: true
           working-directory: client
